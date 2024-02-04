@@ -8,8 +8,8 @@ Establish some form of lunar time, since moon exploration seems to be booming an
 
 What this represents : 
 
-Lunar 415 years = Earth 2024 years
+Lunar 415 years = Earth 2024 years (first observations of the mooon were in 1609 apparently, so 2024 - 1609 = 415)
 
-Lunar day 2 = Earth day (29 to 56)
+Lunar day 2 = Earth day (29 to 56) (1 moon day is equivalent to 28 earth days)
 
 Lunar time 400:14:3 = Earth time ((day 16 of 28) + 11 hours):14:03
