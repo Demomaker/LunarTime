@@ -12,4 +12,4 @@ Lunar 415 years = Earth 2024 years
 
 Lunar day 2 = Earth day (29 to 56)
 
-Lunar time 400:14:3 = Earth time ((day 8 of 28) + 11 hours):14:03
+Lunar time 400:14:3 = Earth time ((day 16 of 28) + 11 hours):14:03
