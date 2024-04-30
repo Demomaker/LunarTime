@@ -55,7 +55,7 @@ def get_lunar_time():
     current_lunar_year = int(days_since_discovery / EARTH_YEAR_IN_DAYS)
 
     # Calculate current lunar day
-    current_lunar_day = int((current_year_seconds + FULL_MOON_OFFSET_SECONDS) / MOON_DAY_SECONDS) + 1  # Lunar day ranges from 1 to 28
+    current_lunar_day = int((current_year_seconds - FULL_MOON_OFFSET_SECONDS) / MOON_DAY_SECONDS) + 1  # Lunar day ranges from 1 to 28
 
     this_lunar_day_seconds = int((current_year_seconds - FULL_MOON_OFFSET_SECONDS) - (MOON_DAY_SECONDS * (current_lunar_day - 1)))
 
