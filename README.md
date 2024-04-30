@@ -35,3 +35,6 @@ So, if we want to convert this back into earth day year and time it would be :
 29 + 15 = 44
 
 16:14:03, day 44 (february 13th), year 2024
+
+## Second output example : 
+![TestOutput2](https://github.com/Demomaker/LunarTime/assets/18319764/7c9bd1d0-401e-45a8-b81d-2bee639162bd)
