@@ -1,4 +1,6 @@
 import time
+import sys
+from datetime import datetime
 
 # Constants for the moon
 EARTH_DAYS_IN_MOON_MONTH = 29.5
@@ -13,9 +15,7 @@ MOON_DISCOVERY_YEAR = -361  # first observations in 1609 which is 1970 (epoch st
 MOON_DISCOVERY_TIMESTAMP = MOON_DISCOVERY_YEAR * SECONDS_MULTIPLICATION * EARTH_YEAR_IN_DAYS
 FULL_MOON_OFFSET_SECONDS = -(3 * SECONDS_MULTIPLICATION + 11 * 3600 + 6 * 60)
 
-def get_current_year_seconds():
-    # Get the current time in seconds since the epoch
-    current_time_seconds = time.time()
+def get_current_year_seconds(current_time_seconds):
 
     # Get the current year
     current_year = time.localtime(current_time_seconds).tm_year
@@ -28,9 +28,7 @@ def get_current_year_seconds():
 
     return seconds_since_start_of_year
 
-def get_current_day_seconds():
-    # Get the current time in seconds since the epoch
-    current_time_seconds = time.time()
+def get_current_day_seconds(current_time_seconds):
 
     # Calculate the timestamp for the start of the current day (midnight)
     start_of_day_timestamp = time.mktime(time.localtime(current_time_seconds)[:3] + (0, 0, 0) + (0, 0, -1))
@@ -40,13 +38,11 @@ def get_current_day_seconds():
 
     return seconds_since_start_of_day
 
-def get_lunar_time():
+def get_lunar_time(current_time_seconds = time.time()):
     # Get the current time in seconds since the epoch
-    current_time_seconds = time.time()
+    current_year_seconds = get_current_year_seconds(current_time_seconds)
 
-    current_year_seconds = get_current_year_seconds()
-
-    current_day_seconds = get_current_day_seconds()
+    current_day_seconds = get_current_day_seconds(current_time_seconds)
 
     # Calculate days since the discovery of the moon
     days_since_discovery = (current_time_seconds - MOON_DISCOVERY_TIMESTAMP + FULL_MOON_OFFSET_SECONDS) / (SECONDS_MULTIPLICATION)
@@ -67,13 +63,11 @@ def get_lunar_time():
 
     return current_lunar_year, current_lunar_day, lunar_time_hours, lunar_time_minutes, lunar_time_seconds
 
-def get_lunar_time_in_months_format():
+def get_lunar_time_in_months_format(current_time_seconds = time.time()):
     # Get the current time in seconds since the epoch
-    current_time_seconds = time.time()
+    current_year_seconds = get_current_year_seconds(current_time_seconds)
 
-    current_year_seconds = get_current_year_seconds()
-
-    current_day_seconds = get_current_day_seconds()
+    current_day_seconds = get_current_day_seconds(current_time_seconds)
 
     # Calculate days since the discovery of the moon
     days_since_discovery = (current_time_seconds - MOON_DISCOVERY_TIMESTAMP + FULL_MOON_OFFSET_SECONDS) / (SECONDS_MULTIPLICATION)
@@ -94,20 +88,32 @@ def get_lunar_time_in_months_format():
 
     return current_lunar_year, current_lunar_month, lunar_time_days, lunar_time_hours, lunar_time_minutes, lunar_time_seconds
 
+def show_lunar_time(current_time_seconds = time.time()):
+    lunar_year, lunar_day, lunar_hours, lunar_minutes, lunar_seconds = get_lunar_time(current_time_seconds)
+    print("===================")
+    print("Lunar time : ")
+    print("{:d}-{:02d} {:02d}:{:02d}:{:02d}".format(lunar_year, lunar_day, lunar_hours, lunar_minutes, lunar_seconds))
+    print(" ")
 
-# Test the function
-lunar_year, lunar_day, lunar_hours, lunar_minutes, lunar_seconds = get_lunar_time()
-print("===================")
-print("Lunar time : ")
-print("{:d}-{:02d} {:02d}:{:02d}:{:02d}".format(lunar_year, lunar_day, lunar_hours, lunar_minutes, lunar_seconds))
-print(" ")
-lunar_year, lunar_month, lunar_time_days, lunar_time_hours, lunar_time_minutes, lunar_time_seconds = get_lunar_time_in_months_format()
+def show_lunar_time_in_months_format(current_time_seconds = time.time()):
+    lunar_year, lunar_month, lunar_time_days, lunar_time_hours, lunar_time_minutes, lunar_time_seconds = get_lunar_time_in_months_format(current_time_seconds)
+    print("===================")
+    print("Lunar time in months and days format :")
+    print("{:d}-{:02d}-{:02d} {:02d}:{:02d}:{:02d}".format(lunar_year, lunar_month, lunar_time_days, lunar_time_hours, lunar_time_minutes, lunar_time_seconds))
+    print(" ")
 
-print("===================")
-print("Lunar time in months and days format :")
-print("{:d}-{:02d}-{:02d} {:02d}:{:02d}:{:02d}".format(lunar_year, lunar_month, lunar_time_days, lunar_time_hours, lunar_time_minutes, lunar_time_seconds))
-print(" ")
+def show_earth_time(current_time_seconds = time.time()):
+    print("==================")
+    print("In Earth Time : ")
+    print(datetime.fromtimestamp(current_time_seconds).strftime("%Y-%m-%d %H:%M:%S"))
 
-print("==================")
-print("In Earth Time : ")
-print(time.strftime("%Y-%m-%d %H:%M:%S"))
+def show_time(current_time_seconds = time.time()):
+    show_lunar_time(current_time_seconds)
+    show_lunar_time_in_months_format(current_time_seconds)
+    show_earth_time(current_time_seconds)
+
+if __name__ == "__main__":
+    if len(sys.argv) < 2:
+        show_time()
+    else:
+        show_time(float(sys.argv[1]))
