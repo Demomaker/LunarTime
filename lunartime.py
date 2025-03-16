@@ -112,9 +112,6 @@ def show_time(current_time_seconds = time.time()):
     show_lunar_time_in_months_format(current_time_seconds)
     show_earth_time(current_time_seconds)
 
-def test_dummy():
-    pass
-
 if __name__ == "__main__":
     if len(sys.argv) < 2:
         show_time()
