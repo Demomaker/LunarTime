@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lunar Time Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            text-align: center;
+        }
+        #lunarTime, #earthTime {
+            margin-top: 20px;
+            font-size: 1.5em;
+        }
+        .time-box {
+            display: inline-block;
+            margin: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Lunar Time Calculator</h1>
+    <div class="time-box">
+        <h2>Current Lunar Time:</h2>
+        <p id="lunarTime"></p>
+    </div>
+    <div class="time-box">
+        <h2>Current Lunar Time (Months Format):</h2>
+        <p id="lunarTimeInMonths"></p>
+    </div>
+    <div class="time-box">
+        <h2>Current Earth Time:</h2>
+        <p id="earthTime"></p>
+    </div>
+
+    <script>
+        const EARTH_DAYS_IN_MOON_MONTH = 29.5;
+        const EARTH_YEAR_IN_DAYS = 365;
+        const SECONDS_MULTIPLICATION = 24 * 3600;
+        const MOON_DAY_SECONDS = EARTH_DAYS_IN_MOON_MONTH * SECONDS_MULTIPLICATION;
+        const MOON_YEAR = EARTH_YEAR_IN_DAYS / EARTH_DAYS_IN_MOON_MONTH;
+        const MOON_YEAR_SECONDS = MOON_YEAR * SECONDS_MULTIPLICATION;
+
+        const MOON_DISCOVERY_YEAR = -361;
+        const MOON_DISCOVERY_TIMESTAMP = MOON_DISCOVERY_YEAR * SECONDS_MULTIPLICATION * EARTH_YEAR_IN_DAYS;
+        const FULL_MOON_OFFSET_SECONDS = -(3 * SECONDS_MULTIPLICATION + 11 * 3600 + 6 * 60);
+
+        function getCurrentYearSeconds(currentTimeSeconds) {
+            const currentYear = new Date(currentTimeSeconds * 1000).getFullYear();
+            const startOfYearTimestamp = new Date(currentYear, 0, 1).getTime() / 1000;
+            return currentTimeSeconds - startOfYearTimestamp;
+        }
+
+        function getCurrentDaySeconds(currentTimeSeconds) {
+            const currentDay = new Date(currentTimeSeconds * 1000);
+            const startOfDayTimestamp = new Date(currentDay.setHours(0, 0, 0, 0)).getTime() / 1000;
+            return currentTimeSeconds - startOfDayTimestamp;
+        }
+
+        function getLunarTime(currentTimeSeconds = Date.now() / 1000) {
+            const currentYearSeconds = getCurrentYearSeconds(currentTimeSeconds);
+            const currentDaySeconds = getCurrentDaySeconds(currentTimeSeconds);
+
+            const daysSinceDiscovery = (currentTimeSeconds - MOON_DISCOVERY_TIMESTAMP + FULL_MOON_OFFSET_SECONDS) / SECONDS_MULTIPLICATION;
+
+            const currentLunarYear = Math.floor(daysSinceDiscovery / EARTH_YEAR_IN_DAYS);
+            const currentLunarDay = Math.floor((currentYearSeconds - FULL_MOON_OFFSET_SECONDS) / MOON_DAY_SECONDS) + 1;
+
+            const thisLunarDaySeconds = Math.floor(currentYearSeconds - FULL_MOON_OFFSET_SECONDS - (MOON_DAY_SECONDS * (currentLunarDay - 1)));
+
+            const lunarTimeDays = Math.floor(thisLunarDaySeconds / SECONDS_MULTIPLICATION);
+            const lunarTimeHours = (lunarTimeDays * 24) + Math.floor((currentDaySeconds) / 3600);
+            const lunarTimeMinutes = Math.floor((currentDaySeconds % 3600) / 60);
+            const lunarTimeSeconds = Math.floor(currentDaySeconds % 3600 % 60);
+
+            return { lunarYear: currentLunarYear, lunarDay: currentLunarDay, lunarTimeHours, lunarTimeMinutes, lunarTimeSeconds };
+        }
+
+        function getLunarTimeInMonthsFormat(currentTimeSeconds = Date.now() / 1000) {
+            const currentYearSeconds = getCurrentYearSeconds(currentTimeSeconds);
+            const currentDaySeconds = getCurrentDaySeconds(currentTimeSeconds);
+
+            const daysSinceDiscovery = (currentTimeSeconds - MOON_DISCOVERY_TIMESTAMP + FULL_MOON_OFFSET_SECONDS) / SECONDS_MULTIPLICATION;
+
+            const currentLunarYear = Math.floor(daysSinceDiscovery / EARTH_YEAR_IN_DAYS);
+            const currentLunarMonth = Math.floor((currentYearSeconds - FULL_MOON_OFFSET_SECONDS) / MOON_DAY_SECONDS) + 1;
+
+            const thisLunarDaySeconds = Math.floor(currentYearSeconds - FULL_MOON_OFFSET_SECONDS - (MOON_DAY_SECONDS * (currentLunarMonth - 1)));
+
+            const lunarTimeDays = Math.floor(thisLunarDaySeconds / SECONDS_MULTIPLICATION);
+            const lunarTimeHours = Math.floor((currentDaySeconds) / 3600);
+            const lunarTimeMinutes = Math.floor((currentDaySeconds % 3600) / 60);
+            const lunarTimeSeconds = Math.floor(currentDaySeconds % 3600 % 60);
+
+            return { lunarYear: currentLunarYear, lunarMonth: currentLunarMonth, lunarTimeDays, lunarTimeHours, lunarTimeMinutes, lunarTimeSeconds };
+        }
+
+        function updateTime() {
+            const currentTimeSeconds = Date.now() / 1000;
+
+            const lunarTime = getLunarTime(currentTimeSeconds);
+            const lunarTimeInMonths = getLunarTimeInMonthsFormat(currentTimeSeconds);
+
+            // Display Lunar Time
+            document.getElementById('lunarTime').textContent = `${lunarTime.lunarYear}-${String(lunarTime.lunarDay).padStart(2, '0')} ${String(lunarTime.lunarTimeHours).padStart(2, '0')}:${String(lunarTime.lunarTimeMinutes).padStart(2, '0')}:${String(lunarTime.lunarTimeSeconds).padStart(2, '0')}`;
+
+            // Display Lunar Time (Months Format)
+            document.getElementById('lunarTimeInMonths').textContent = `${lunarTimeInMonths.lunarYear}-${String(lunarTimeInMonths.lunarMonth).padStart(2, '0')}-${String(lunarTimeInMonths.lunarTimeDays).padStart(2, '0')} ${String(lunarTimeInMonths.lunarTimeHours).padStart(2, '0')}:${String(lunarTimeInMonths.lunarTimeMinutes).padStart(2, '0')}:${String(lunarTimeInMonths.lunarTimeSeconds).padStart(2, '0')}`;
+
+            // Display Earth Time
+            document.getElementById('earthTime').textContent = new Date(currentTimeSeconds * 1000).toLocaleString();
+        }
+
+        setInterval(updateTime, 1000);
+        updateTime(); // Initial call to display time right away
+    </script>
+</body>
+</html>
