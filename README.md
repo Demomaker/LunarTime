@@ -1,40 +1,34 @@
-# Purpose of this
+### Purpose of This Project
 
-Establish some form of lunar time, since moon exploration seems to be booming and might require lunar-only time some day.
+As moon exploration and the possibility of lunar colonies grow more imminent, there may be a need for a timekeeping system specifically designed for the moon. The goal of this project is to establish a lunar time system that is consistent with the moon’s cycles, facilitating both future lunar exploration and the potential establishment of human presence on the moon.
 
-## Self-determined characteristics of moon time
+### Self-Determined Characteristics of Lunar Time:
 
-1. 1 moon year = 1 earth year, since the moon revolves around the earth and thus is brought around the sun at the same time as earth.
+- **1 Moon Year = 1 Earth Year**: The moon revolves around Earth, completing one full orbit around the Sun in the same time as Earth. Therefore, a lunar year corresponds directly to an Earth year.
+  
+- **1 Moon Month = 29.5 Earth Days**: The moon takes 29.5 days to orbit Earth and complete one full rotation on its axis. This period is used to define the length of a lunar month.
 
-2. 1 moon month = 29.5 earth days, since the moon takes 29.5 days to go around the earth and perform 1 full spin on itself.
+- **1 Moon Year = 12 Moon Months**: Since 365 days divided by 29.5 days is approximately 12, a lunar year consists of 12 lunar months.
 
-3. 1 moon year = 12 moon months, since 365 days divided by 29 days is approximately 12.
+- **Start of the Lunar Year**: Lunar year 0 begins in 1609, which is when the first telescope observations of the moon were made.
 
-4. The current moon year count starts from the first observations or discoveries of the moon. For now, from a quick search, it has been established that Earth year 1609 is when the moon had its first telescope observations, so lunar year 0 = earth year 1609.
+- **Moon Day**: A moon day starts at the full moon (Earth day 1 of a lunar month), and a lunar day is equivalent to 29.5 Earth days.
 
-5. A moon day starts and ends at the full moon. (Full moon is earth day 1 of 29 in a moon month)
+- **1 Moon Minute = 1 Earth Minute**: To keep it simple, we align lunar time with Earth time for smaller units like minutes and seconds.
 
-6. 1 moon minute = 1 earth minute
+### Example Outputs:
 
-7. 1 moon second = 1 earth second
-
-## Example of output : 
+#### Example 1: Lunar to Earth Time Conversion
 
 ![TestOutput](https://github.com/Demomaker/LunarTime/assets/18319764/deac490b-1496-45d3-a4c1-3ed881ce3670)
 
-What this represents : 
+**Lunar Year**: 415 (Lunar year 415 corresponds to Earth year 2024)
 
-Lunar 415 years = Earth 2024 years (first observations of the moon were in 1609 apparently, so 2024 - 1609 = 415)
+**Lunar Day**: 2 (Lunar day 2 corresponds to Earth days 30 to 59 within the lunar month)
 
-Lunar day 2 = Earth day (30 to 59) (1 moon month is equivalent to 29.5 earth days)
+**Lunar Time**: 400:14:03 (Lunar time is calculated as 16 hours and 14 minutes on the 16th day of a lunar month)
 
-Lunar time 400:14:3 = Earth time ((day 16 of 28) + 16 hours):14:03
+**Earth Equivalent**: The corresponding Earth time is: February 13th 2024, 16:14:03
 
-So, if we want to convert this back into earth day year and time it would be : 
-
-29 + 15 = 44
-
-16:14:03, day 44 (february 13th), year 2024
-
-## Second output example : 
+#### Example 2: 
 ![TestOutput2](https://github.com/Demomaker/LunarTime/assets/18319764/7c9bd1d0-401e-45a8-b81d-2bee639162bd)
